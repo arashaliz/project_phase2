@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>{% if register_type == 'manager' %}Clinic Manager{% else %}Patient{% endif %} Register</h2>
+    <form method="post" action="{% url 'registration' register_type=register_type %}" class="mt-4">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+  
+    <p class="mt-4">Register as {% if register_type == 'manager' %}Patient{% else %}Clinic Manager{% endif %}:
+      <a href="{% url 'registration' %}" class="btn btn-secondary">Patient</a>
+      <a href="{% url 'registration' register_type='manager' %}" class="btn btn-secondary">Clinic Manager</a>
+    </p>
+  </div>
+{% endblock %}
