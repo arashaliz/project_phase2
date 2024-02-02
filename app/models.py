@@ -37,3 +37,9 @@ class Appointment(models.Model):
     patient = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     date_time = models.DateTimeField()
 
+site.register(District)
+site.register(User)
+site.register(Clinic)
+site.register(Room)
+site.register(Appointment)
+
