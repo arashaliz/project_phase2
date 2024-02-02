@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Clinics and Rooms</h2>
+
+    <h3 class="mt-4">Your Clinics</h3>
+    <ul class="list-group">
+      {% for clinic in clinics %}
+        <li class="list-group-item">
+          {{ clinic.name }}
+          <ul class="list-group mt-2">
+            {% for room in clinic.room_set.all %}
+              <li class="list-group-item"><a href="{% url 'room_times' room.id %}">{{ room }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
