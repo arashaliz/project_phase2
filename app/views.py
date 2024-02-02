@@ -64,3 +64,61 @@ def clinics_rooms(request):
         clinics = Clinic.objects.filter(district=user.district)
     return render(request, 'app/clinics_rooms.html', {'clinics': clinics})
 
+
+@login_required
+def room_times(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
+    user: User = request.user
+
+    if user.is_patient:
+        appointments = Appointment.objects.filter(room=room, reserved=False)
+        return render(request, 'app/room_times.html', {'room': room, 'appointments': appointments})
+    elif user.is_clinic_manager or user.is_doctor:
+        appointments = Appointment.objects.filter(room=room)
+        return render(request, 'app/room_times.html', {'room': room, 'appointments': appointments})
+
+
+@login_required
+def update_capacity(request, room_id):
+    if request.method == 'POST' and request.user.is_clinic_manager:
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        start_time = datetime.strptime(start_time, '%Y-%m-%d %H:%M')
+        end_time = datetime.strptime(end_time, '%Y-%m-%d %H:%M')
+
+        try:
+            room = Room.objects.get(id=room_id)
+            room.save()
+
+            time_increment = timedelta(minutes=30)
+            num_appointments = int((end_time - start_time).total_seconds() / 1800)
+            for _ in range(num_appointments):
+                Appointment.objects.create(room=room, date_time=start_time)
+                start_time += time_increment
+
+            return JsonResponse({'success': True, 'message': 'Capacity updated successfully'})
+        except Room.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'Room not found'}, status=400)
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f'An error occurred: {str(e)}'}, status=500)
+
+    return HttpResponseBadRequest('Invalid request')
+
+
+@login_required
+def reserve_time(request, room_id):
+    if request.method == 'POST' and request.user.is_patient:
+        try:
+            date_time = request.POST.get('date_time')
+            appointment = Appointment.objects.get(date_time=date_time, room_id=room_id, reserved=False)
+            appointment.reserved = True
+            appointment.patient = request.user
+            appointment.save()
+
+            return JsonResponse({'success': True, 'message': 'Reservation successful'})
+        except Appointment.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'Appointment not found or already reserved'}, status=400)
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f'An error occurred: {str(e)}'}, status=500)
+
+    return HttpResponseBadRequest('Invalid request')
