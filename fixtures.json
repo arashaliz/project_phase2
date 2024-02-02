@@ -1,0 +1,158 @@
+[
+  {
+    "model": "app.district",
+    "pk": 1,
+    "fields": {
+      "location": "District One"
+    }
+  },
+  {
+    "model": "app.district",
+    "pk": 2,
+    "fields": {
+      "location": "District Two"
+    }
+  },
+  {
+    "model": "app.district",
+    "pk": 3,
+    "fields": {
+      "location": "District Three"
+    }
+  },
+    {
+    "model": "app.user",
+    "pk": 1,
+    "fields": {
+      "username": "patient1",
+      "password": "pbkdf2_sha256$720000$9MfkQpoUpH5jk8yYnxIDQu$vfghK6/F+fNvSLi1xfB11NFxOEro30MlGo3aAU2akzc=",
+      "is_patient": true,
+      "is_doctor": false,
+      "is_clinic_manager": false,
+      "district": 1
+    }
+  },
+  {
+    "model": "app.user",
+    "pk": 2,
+    "fields": {
+      "username": "doctor1",
+      "password": "pbkdf2_sha256$720000$9MfkQpoUpH5jk8yYnxIDQu$vfghK6/F+fNvSLi1xfB11NFxOEro30MlGo3aAU2akzc=",
+      "is_patient": false,
+      "is_doctor": true,
+      "is_clinic_manager": false,
+      "district": 2
+    }
+  },
+    {
+    "model": "app.user",
+    "pk": 4,
+    "fields": {
+      "username": "admin1",
+      "password": "pbkdf2_sha256$720000$9MfkQpoUpH5jk8yYnxIDQu$vfghK6/F+fNvSLi1xfB11NFxOEro30MlGo3aAU2akzc=",
+      "is_patient": false,
+      "is_doctor": false,
+      "is_staff": true,
+      "is_clinic_manager": false,
+      "district": 2
+    }
+  },
+  {
+    "model": "app.user",
+    "pk": 3,
+    "fields": {
+      "username": "manager1",
+      "password": "pbkdf2_sha256$720000$9MfkQpoUpH5jk8yYnxIDQu$vfghK6/F+fNvSLi1xfB11NFxOEro30MlGo3aAU2akzc=",
+      "is_patient": false,
+      "is_doctor": false,
+      "is_clinic_manager": true,
+      "district": 3
+    }
+  },
+  {
+    "model": "app.clinic",
+    "pk": 1,
+    "fields": {
+      "name": "Clinic 1",
+      "address": "District One",
+      "district": 1,
+      "manager": 3
+    }
+  },
+  {
+    "model": "app.clinic",
+    "pk": 2,
+    "fields": {
+      "name": "Clinic 2",
+      "address": "District Two",
+      "district": 1,
+      "manager": 3
+    }
+  },
+  {
+    "model": "app.clinic",
+    "pk": 3,
+    "fields": {
+      "name": "Clinic 3",
+      "address": "District Three",
+      "district": 3,
+      "manager": null
+    }
+  },
+
+  {
+    "model": "app.room",
+    "pk": 1,
+    "fields": {
+      "clinic": 1,
+      "doctor": 2
+    }
+  },
+  {
+    "model": "app.room",
+    "pk": 2,
+    "fields": {
+      "clinic": 2,
+      "doctor": 2
+    }
+  },
+  {
+    "model": "app.room",
+    "pk": 3,
+    "fields": {
+      "clinic": 3,
+      "doctor": null
+    }
+  },
+  {
+    "model": "app.appointment",
+    "pk": 1,
+    "fields": {
+      "reserved": false,
+      "room": 1,
+      "patient": 1,
+      "date_time": "2024-01-10T08:00:00Z"
+    }
+  },
+  {
+    "model": "app.appointment",
+    "pk": 2,
+    "fields": {
+      "reserved": false,
+      "room": 2,
+      "patient": 2,
+      "date_time": "2024-01-15T10:30:00Z"
+    }
+  },
+  {
+    "model": "app.appointment",
+    "pk": 3,
+    "fields": {
+      "reserved": false,
+      "room": 3,
+      "patient": 3,
+      "date_time": "2024-01-20T13:45:00Z"
+    }
+  }
+]
+
